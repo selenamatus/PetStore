@@ -1,6 +1,5 @@
 const express = require('express');
 const { createProduct, getProducts, getProductById, updateProduct, deleteProduct } = require('../controllers/productController');
-const auth = require('../middleware/auth');
 const router = express.Router();
 
 // Create a new product
@@ -13,9 +12,9 @@ router.get('/', getProducts);
 router.get('/:id', getProductById);
 
 // Update a product by ID
-router.put('/:id', auth, updateProduct);
+router.put('/:id',  updateProduct);
 
 // Delete a product by ID
-router.delete('/:id', auth, deleteProduct);
+router.delete('/:id',  deleteProduct);
 
 module.exports = router;

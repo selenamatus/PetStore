@@ -1,6 +1,5 @@
-const User = require('../models/user'); 
+const User = require('../models/user');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 // Register a new user
 const registerUser = async (req, res) => {
@@ -54,10 +53,8 @@ const loginUser = async (req, res) => {
         return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Create JWT token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    res.json({ token });
+    // Return success message
+    res.json({ message: 'Login successful' });
 };
 
 module.exports = {
