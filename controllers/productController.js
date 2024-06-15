@@ -6,7 +6,7 @@ exports.searchProducts = async (req, res) => {
   try {
       const query = req.query.q || ''; 
       const products = await Product.find({
-          name: { $regex: new RegExp(query, 'i') } // Case-insensitive search
+          name: { $regex: new RegExp(query, 'i') } 
       });
       res.json(products);
   } catch (err) {
@@ -15,11 +15,8 @@ exports.searchProducts = async (req, res) => {
 };
 
 
-// Other functions...
-
-// Existing code...
 exports.createProduct = async (req, res) => {
-  // Your create product logic...
+  // create product logic- yet implement
 };
 
 exports.getProducts = async (req, res) => {

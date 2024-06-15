@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Products from './pages/Products';
-import SearchBar from './components/SearchBar';  
+import Header from './components/Header'; 
+import Footer from './components/Footer'; 
 import './App.css';
 
 function App() {
@@ -15,26 +16,12 @@ function App() {
     return (
         <Router>
             <div className="App">
-                <header className="header">
-                    <div className="navbar">
-                        <Link to="/">Petway</Link>
-                        <div>
-                            <Link to="/">Home</Link>
-                            <Link to="/products">Products</Link>
-                        </div>
-                        <div>
-                            <Link to="/login">Login</Link>
-                        </div>
-                    </div>
-                    <SearchBar onSearch={handleSearch} />  
-                </header>
+                <Header onSearch={handleSearch} /> 
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/products" element={<Products searchQuery={searchQuery} />} />
                 </Routes>
-                <footer className="footer">
-                    &copy; 2024 Pet Supplies Store
-                </footer>
+                <Footer /> 
             </div>
         </Router>
     );
