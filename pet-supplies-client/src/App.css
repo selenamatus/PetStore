@@ -6,11 +6,11 @@ body {
 }
 
 .header, .footer {
-  background-color: #ff9900; /* Changed to a more colorful background */
+  background-color: #ff9900; 
   padding: 10px 0;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  color: white; /* White text for better contrast */
+  color: white; 
 }
 
 .navbar {
@@ -18,18 +18,18 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #ff9900; /* Match the header background color */
+  background-color: #ff9900; 
 }
 
 .navbar a {
   text-decoration: none;
-  color: white; /* White text for links */
+  color: white; 
   padding: 8px 16px;
   transition: background 0.3s;
 }
 
 .navbar a:hover {
-  background-color: #ff6600; /* Slightly darker on hover */
+  background-color: #ff6600; 
 }
 
 .banner {
@@ -88,4 +88,31 @@ body {
   font-size: 18px;
   margin-bottom: 20px;
   color: #333; 
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto; 
+}
+
+.search-bar input {
+  padding: 8px;
+  width: 200px; 
+}
+
+.search-bar button {
+  background: none;
+  cursor: pointer;
+  padding: 0 8px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-bar button img {
+  width: 35px;
+  height: 35px;
+
 }

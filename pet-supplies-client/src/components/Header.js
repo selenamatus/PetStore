@@ -1,11 +1,21 @@
 import React from 'react';
-import Navbar from './Navbar';
+import { Link } from 'react-router-dom';
+import SearchBar from './SearchBar'; 
 
-const Header = () => {
+const Header = ({ onSearch }) => {
   return (
-    <header>
-      <h1>Petway</h1>
-      <Navbar />
+    <header className="header">
+      <div className="navbar">
+        <Link to="/">Petway</Link>
+        <div>
+          <Link to="/">Home</Link>
+          <Link to="/products">Products</Link>
+        </div>
+        <SearchBar onSearch={onSearch} /> {/* Add this line */}
+        <div>
+          <Link to="/login">Login</Link>
+        </div>
+      </div>
     </header>
   );
 };
