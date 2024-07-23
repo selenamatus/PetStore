@@ -10,7 +10,7 @@ const Products = () => {
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [priceRange, setPriceRange] = useState([0, 100]);
-    const [currentPriceRange, setCurrentPriceRange] = useState([0, 100]); // state עבור ערכי הסרגל הנוכחיים
+    const [currentPriceRange, setCurrentPriceRange] = useState([0, 100]);
     const [filters, setFilters] = useState({
         minPrice: 0,
         maxPrice: 100,
@@ -20,7 +20,7 @@ const Products = () => {
 
     const fetchProducts = async (appliedFilters) => {
         try {
-            const response = await axios.get('http://localhost:5000/api/products', {
+            const response = await axios.get('http://localhost:5000/api/products/search', {
                 params: {
                     minPrice: appliedFilters.minPrice,
                     maxPrice: appliedFilters.maxPrice,
@@ -40,7 +40,6 @@ const Products = () => {
                 const response = await axios.get('http://localhost:5000/api/products');
                 setProducts(response.data);
 
-                // חישוב המחיר הנמוך ביותר והגבוה ביותר מבין המוצרים
                 const prices = response.data.map(product => product.price);
                 const minPrice = Math.min(...prices);
                 const maxPrice = Math.max(...prices);
@@ -48,11 +47,9 @@ const Products = () => {
                 setCurrentPriceRange([minPrice, maxPrice]);
                 setFilters({ ...filters, minPrice, maxPrice });
 
-                // טען את רשימת הקטגוריות
                 const uniqueCategories = [...new Set(response.data.map(product => product.category))];
                 setCategories(uniqueCategories);
 
-                // טען את רשימת היצרנים
                 const uniqueBrands = [...new Set(response.data.map(product => product.brand))];
                 setBrands(uniqueBrands);
             } catch (error) {
@@ -63,13 +60,16 @@ const Products = () => {
         fetchInitialProducts();
     }, []);
 
+    useEffect(() => {
+        fetchProducts(filters);
+    }, [filters]);
+
     const handleSliderChange = (value) => {
-        setCurrentPriceRange(value); // עדכון ערכי הסרגל הנוכחיים בזמן אמת
+        setCurrentPriceRange(value);
     };
 
     const handleSliderAfterChange = (value) => {
         setFilters({ ...filters, minPrice: value[0], maxPrice: value[1] });
-        fetchProducts({ ...filters, minPrice: value[0], maxPrice: value[1] });
     };
 
     const handleCategoryChange = (category) => {
@@ -101,7 +101,7 @@ const Products = () => {
                         range
                         min={priceRange[0]}
                         max={priceRange[1]}
-                        defaultValue={priceRange}
+                        value={currentPriceRange}
                         onChange={handleSliderChange}
                         onAfterChange={handleSliderAfterChange}
                     />

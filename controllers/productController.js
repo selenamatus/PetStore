@@ -1,40 +1,26 @@
 const Product = require('../models/product');
 
-
-// Search products by name
 exports.searchProducts = async (req, res) => {
-  try {
-      const query = req.query.q || ''; 
-      const products = await Product.find({
-          name: { $regex: new RegExp(query, 'i') } 
-      });
-      res.json(products);
-  } catch (err) {
-      res.status(500).json({ message: err.message });
+  const { minPrice, maxPrice, categories, brands } = req.query;
+  const filter = {};
+
+  if (minPrice) {
+    filter.price = { ...filter.price, $gte: Number(minPrice) };
   }
-};
-
-
-exports.createProduct = async (req, res) => {
-  // create product logic- yet implement
-};
-
-exports.getProducts = async (req, res) => {
-  try {
-      const products = await Product.find();
-      res.json(products);
-  } catch (err) {
-      res.status(500).json({ message: err.message });
+  if (maxPrice) {
+    filter.price = { ...filter.price, $lte: Number(maxPrice) };
   }
-};
-exports.getProductById = async (req, res) => {
-  // product by ID logic- still need to implement
-};
+  if (categories) {
+    filter.category = { $in: categories.split(',') };
+  }
+  if (brands) {
+    filter.brand = { $in: brands.split(',') };
+  }
 
-exports.updateProduct = async (req, res) => {
-  // update product logic- need to implement
-};
-
-exports.deleteProduct = async (req, res) => {
-  //  delete product logic - need to implement
+  try {
+    const products = await Product.find(filter);
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
