@@ -61,20 +61,33 @@ exports.deleteProduct = (req, res) => {
 };
 
 exports.searchProducts = async (req, res) => {
-  const { minPrice, maxPrice, categories, brands } = req.query;
+  const { minPrice, maxPrice, categories, brands, searchQuery } = req.query;
   const filter = {};
 
-  if (minPrice) {
-    filter.price = { ...filter.price, $gte: Number(minPrice) };
+  // Handle price range
+  if (minPrice || maxPrice) {
+    filter.price = {};
+    if (minPrice) {
+      filter.price.$gte = Number(minPrice);
+    }
+    if (maxPrice) {
+      filter.price.$lte = Number(maxPrice);
+    }
   }
-  if (maxPrice) {
-    filter.price = { ...filter.price, $lte: Number(maxPrice) };
-  }
+
+  // Handle categories
   if (categories) {
     filter.category = { $in: categories.split(',') };
   }
+
+  // Handle brands
   if (brands) {
     filter.brand = { $in: brands.split(',') };
+  }
+
+  // Handle search query
+  if (searchQuery) {
+    filter.name = { $regex: new RegExp(searchQuery, 'i') }; // Case-insensitive search
   }
 
   try {

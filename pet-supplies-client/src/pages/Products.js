@@ -5,7 +5,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import './Products.css';
 
-const Products = () => {
+const Products = ({ searchQuery }) => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -15,24 +15,41 @@ const Products = () => {
         minPrice: 0,
         maxPrice: 100,
         selectedCategories: [],
-        selectedBrands: []
+        selectedBrands: [],
+        searchQuery: '',
     });
 
     const fetchProducts = async (appliedFilters) => {
         try {
+            console.log('Fetching products with filters:', appliedFilters);
             const response = await axios.get('http://localhost:5000/api/products/search', {
                 params: {
                     minPrice: appliedFilters.minPrice,
                     maxPrice: appliedFilters.maxPrice,
                     categories: appliedFilters.selectedCategories.join(','),
-                    brands: appliedFilters.selectedBrands.join(',')
-                }
+                    brands: appliedFilters.selectedBrands.join(','),
+                    searchQuery: appliedFilters.searchQuery || '',
+                },
             });
+            console.log('Fetched products:', response.data);
             setProducts(response.data);
         } catch (error) {
             console.error('Error fetching products:', error);
         }
     };
+
+    useEffect(() => {
+        console.log('Search query changed:', searchQuery);
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            searchQuery: searchQuery || '',
+        }));
+    }, [searchQuery]);
+
+    useEffect(() => {
+        console.log('Filters changed:', filters);
+        fetchProducts(filters);
+    }, [filters]);
 
     useEffect(() => {
         const fetchInitialProducts = async () => {
@@ -60,34 +77,36 @@ const Products = () => {
         fetchInitialProducts();
     }, []);
 
-    useEffect(() => {
-        fetchProducts(filters);
-    }, [filters]);
-
     const handleSliderChange = (value) => {
         setCurrentPriceRange(value);
     };
 
     const handleSliderAfterChange = (value) => {
-        setFilters({ ...filters, minPrice: value[0], maxPrice: value[1] });
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            minPrice: value[0],
+            maxPrice: value[1],
+        }));
     };
 
     const handleCategoryChange = (category) => {
         const updatedCategories = filters.selectedCategories.includes(category)
             ? filters.selectedCategories.filter(c => c !== category)
             : [...filters.selectedCategories, category];
-        setFilters({ ...filters, selectedCategories: updatedCategories });
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            selectedCategories: updatedCategories,
+        }));
     };
 
     const handleBrandChange = (brand) => {
         const updatedBrands = filters.selectedBrands.includes(brand)
             ? filters.selectedBrands.filter(b => b !== brand)
             : [...filters.selectedBrands, brand];
-        setFilters({ ...filters, selectedBrands: updatedBrands });
-    };
-
-    const handleSearchClick = () => {
-        fetchProducts(filters);
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            selectedBrands: updatedBrands,
+        }));
     };
 
     return (
@@ -138,10 +157,10 @@ const Products = () => {
                         </label>
                     ))}
                 </div>
-                <button onClick={handleSearchClick}>Search</button>
             </div>
         </div>
     );
 };
+
 
 export default Products;

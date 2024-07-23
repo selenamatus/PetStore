@@ -20,8 +20,9 @@
 
 .products-list {
     flex-grow: 1;
-    display: flex;
+    display: grid;
     justify-content: center;
+    gap: 20px;
 }
 
 .price-range {

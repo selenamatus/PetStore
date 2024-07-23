@@ -15,6 +15,8 @@ const SearchBar = ({ onSearch }) => {
             navigate('/products');
         } else {
             onSearch(query);
+            console.log('this is the quary we getting from searchbar:', query)
+            navigate('/products');
         }
     };
 
