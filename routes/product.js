@@ -4,9 +4,9 @@ const { createProduct, getProducts, getProductById, updateProduct, deleteProduct
 
 router.post('/', createProduct);
 router.get('/', getProducts);
+router.get('/search', searchProducts); // Route for product search
 router.get('/:id', getProductById);
 router.put('/:id', updateProduct);
 router.delete('/:id', deleteProduct);
-router.get('/search', searchProducts);
 
 module.exports = router;

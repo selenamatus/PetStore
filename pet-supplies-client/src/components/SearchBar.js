@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import searchIcon from '../assets/search-icon.png'; 
+import searchIcon from '../assets/search-icon.png';
 
 const SearchBar = ({ onSearch }) => {
     const [query, setQuery] = useState('');
@@ -15,6 +15,8 @@ const SearchBar = ({ onSearch }) => {
             navigate('/products');
         } else {
             onSearch(query);
+            console.log('this is the quary we getting from searchbar:', query)
+            navigate('/products');
         }
     };
 
@@ -23,13 +25,12 @@ const SearchBar = ({ onSearch }) => {
             <button onClick={handleSearchClick}>
                 <img src={searchIcon} alt="Search" />
             </button>
-            <input 
-                type="text" 
-                placeholder="Search..." 
-                value={query} 
-                onChange={handleInputChange} 
+            <input
+                type="text"
+                placeholder="Search..."
+                value={query}
+                onChange={handleInputChange}
             />
-            
         </div>
     );
 };

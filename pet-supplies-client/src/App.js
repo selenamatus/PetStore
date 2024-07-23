@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Products from './pages/Products';
-import Header from './components/Header'; 
-import Footer from './components/Footer'; 
+import Header from './components/Header';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
@@ -11,17 +11,18 @@ function App() {
 
     const handleSearch = (query) => {
         setSearchQuery(query);
+        console.log('handlesearch query in app.js', query);
     };
 
     return (
         <Router>
             <div className="App">
-                <Header onSearch={handleSearch} /> 
+                <Header onSearch={handleSearch} />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/products" element={<Products searchQuery={searchQuery} />} />
                 </Routes>
-                <Footer /> 
+                <Footer />
             </div>
         </Router>
     );
