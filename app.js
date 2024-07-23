@@ -8,12 +8,12 @@ const productRoutes = require('./routes/product');
 
 const app = express();
 
-// Use CORS middleware
+
 app.use(cors());
 
 app.use(bodyParser.json());
 
-// Connect to MongoDB
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected...');
