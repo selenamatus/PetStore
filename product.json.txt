@@ -1,0 +1,14 @@
+{
+  "_id": "product_id1",
+  "name": "Dog Food",
+  "description": "High quality dog food",
+  "price": 29.99,
+  "subcategory": "dry food"
+},
+{
+  "_id": "product_id2",
+  "name": "Dog Toy",
+  "description": "Durable dog toy",
+  "price": 19.99,
+  "subcategory": "toys"
+}
